@@ -12,4 +12,4 @@ openssl genpkey -algorithm RSA -out "$path/$name.pem"
 value=$(awk 'NF {printf "%s\\n", $0}' "$path/$name.pem")
 
 # Save the formatted private key to a file.
-echo "$value" > "$path/$name.inline.pem"
+echo "$value" > "$path/$name.txt"
