@@ -85,7 +85,7 @@ const jwt = new Jwt({
   secret: process.env.JWT_SECRET,
   issuer: process.env.JWT_ISSUER,
   audience: process.env.JWT_AUDIENCE,
-  expiresIn: parseInt(process.env.JWT_EXPIRES_IN_SECONDS || '60'),
+  expiresIn: parseInt(process.env.JWT_EXPIRES_SECONDS || '60'),
 })
 
 export default jwt
