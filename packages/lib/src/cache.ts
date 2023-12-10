@@ -48,7 +48,7 @@ export class MemoryCache implements Cache {
 }
 
 export function createCache(name: string): Cache {
-  const type = process.env.CACHE_TYPE
+  const type = process.env.CACHE_TYPE ?? 'memory'
 
   switch (type) {
     case 'memory':
