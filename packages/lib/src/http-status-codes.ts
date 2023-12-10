@@ -169,12 +169,12 @@ export const HTTPStatusCodes = {
   HTTP_511_NETWORK_AUTHENTICATION_REQUIRED,
 }
 
-export function getHTTPStatusByCode(code: string | number | null | undefined) {
+export function getHTTPStatusByCode(code: string | number | null | undefined): keyof typeof HTTPStatusCodes {
   const status = Object.keys(HTTPStatusCodes).find((key) => key.includes(`${code}`))
 
   if (!status) {
     throw new Error('status not found')
   }
 
-  return status
+  return status as keyof typeof HTTPStatusCodes
 }
