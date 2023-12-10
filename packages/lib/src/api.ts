@@ -19,7 +19,7 @@ export async function parse(request: Request) {
   try {
     return request.json()
   } catch {
-    return null
+    return
   }
 }
 
