@@ -10,9 +10,10 @@ declare namespace NodeJS {
     // Cache
     readonly CACHE_TYPE: 'memory'
     // JWT
-    readonly JWT_EXPIRES_IN_SECONDS: string
+    readonly JWT_ALGORITHM: string
     readonly JWT_ISSUER: string
     readonly JWT_AUDIENCE: string
     readonly JWT_SECRET: string
+    readonly JWT_EXPIRES_IN_SECONDS: string
   }
 }

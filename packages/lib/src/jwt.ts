@@ -1,7 +1,7 @@
 // An implementation of JSON Web Tokens.
 // More at: https://github.com/auth0/node-jsonwebtoken
 
-import type { JwtPayload, SignOptions, VerifyOptions, Algorithm } from 'jsonwebtoken'
+import type { Algorithm, JwtPayload, SignOptions, VerifyOptions } from 'jsonwebtoken'
 
 import { sign, verify } from 'jsonwebtoken'
 import Result from '@pandora/lib/Result'
@@ -81,10 +81,10 @@ export class Jwt {
 }
 
 const jwt = new Jwt({
-  algorithm: 'RS256',
-  secret: process.env.JWT_SECRET as string,
-  issuer: process.env.JWT_ISSUER as string,
-  audience: process.env.JWT_AUDIENCE as string,
+  algorithm: process.env.JWT_ALGORITHM as Algorithm,
+  secret: process.env.JWT_SECRET,
+  issuer: process.env.JWT_ISSUER,
+  audience: process.env.JWT_AUDIENCE,
   expiresIn: parseInt(process.env.JWT_EXPIRES_IN_SECONDS || '60'),
 })
 
