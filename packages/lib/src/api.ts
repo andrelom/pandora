@@ -4,13 +4,13 @@ import Result from '@pandora/lib/Result'
 import { HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED } from '@pandora/lib/http-status-codes'
 
 const api = {
-  getOk<T = any>(data?: T) {
+  getOk<T = any>(data?: T): NextResponse<Result<T>> {
     return NextResponse.json(Result.success(data), { status: 200 })
   },
-  getBadRequest(metadata?: Record<string, any>) {
+  getBadRequest(metadata?: Record<string, any>): NextResponse<Result> {
     return NextResponse.json(Result.fail(HTTP_400_BAD_REQUEST, metadata), { status: 400 })
   },
-  getNotAuthorized(metadata?: Record<string, any>) {
+  getNotAuthorized(metadata?: Record<string, any>): NextResponse<Result> {
     return NextResponse.json(Result.fail(HTTP_401_UNAUTHORIZED, metadata), { status: 401 })
   },
 }
