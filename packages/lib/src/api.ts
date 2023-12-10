@@ -15,9 +15,9 @@ const api = {
   },
 }
 
-export async function parse(request: Request) {
+export async function parse<T = any>(request: Request): Promise<T | undefined> {
   try {
-    return request.json()
+    return await request.json()
   } catch {
     return
   }
