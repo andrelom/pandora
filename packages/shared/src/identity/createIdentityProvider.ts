@@ -11,6 +11,8 @@ export default function createIdentityProvider(_req: NextApiRequest, _res: NextA
       password: { label: 'Password', type: 'password' },
     },
     async authorize(credentials) {
+      console.log('Identity Provider', JSON.stringify(credentials))
+
       // Any object returned will be saved in `user`
       // property of the JWT.
       return {
