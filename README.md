@@ -34,4 +34,4 @@ npx prettier --write .
 
 ## License
 
-All rights reserved.
+MIT
