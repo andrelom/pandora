@@ -8,17 +8,11 @@ import Result from '@pandora/lib/Result'
 
 export type JwtData = Record<string, boolean | number | string>
 
-export type JwtSignSettings = {
+export type JwtSettings = {
   secret: string
   issuer: string
   audience: string
   expiresIn: number
-}
-
-export type JwtVerifySettings = {
-  secret: string
-  issuer: string
-  audience: string
 }
 
 export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
@@ -26,9 +20,9 @@ export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
 export const JWT_VERIFY_FAILED = 'JWT_VERIFY_FAILED'
 
 export class Jwt {
-  private settings: JwtSignSettings
+  private settings: JwtSettings
 
-  constructor(settings: JwtSignSettings) {
+  constructor(settings: JwtSettings) {
     this.settings = settings
   }
 
