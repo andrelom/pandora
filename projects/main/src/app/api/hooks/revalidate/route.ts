@@ -1,9 +1,9 @@
 import { revalidatePath } from 'next/cache'
 import api, { parse } from '@pandora/lib/api'
-import { authorize } from '@pandora/lib/jwt'
+import jwt from '@pandora/lib/jwt'
 
 export async function POST(request: Request) {
-  const authorization = await authorize<{ api: string }>(request)
+  const authorization = await jwt.authorize<{ api: string }>(request)
 
   if (authorization.data?.api !== '/api/hooks/revalidate') {
     return api.getNotAuthorized()

@@ -6,42 +6,42 @@ import type { JwtPayload, SignOptions, VerifyOptions } from 'jsonwebtoken'
 import { sign, verify } from 'jsonwebtoken'
 import Result from '@pandora/lib/Result'
 
-type Payload = Record<string, boolean | number | string>
+export type JwtData = Record<string, boolean | number | string>
 
-export type SignSettings = {
+export type JwtSignSettings = {
   secret: string
   issuer: string
   audience: string
   expiresIn: number
 }
 
-export type VerifySettings = {
+export type JwtVerifySettings = {
   secret: string
   issuer: string
   audience: string
 }
 
 export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
+
 export const JWT_VERIFY_FAILED = 'JWT_VERIFY_FAILED'
 
-const defaults = {
-  secret: process.env.JWT_SECRET as string,
-  issuer: process.env.JWT_ISSUER as string,
-  audience: process.env.JWT_AUDIENCE as string,
-  expiresIn: parseInt(process.env.JWT_EXPIRES_IN_SECONDS || '60'),
-}
+export class Jwt {
+  private settings: JwtSignSettings
 
-const jwt = {
-  async sign<T extends Payload>(payload: T, settings: SignSettings = defaults): Promise<Result<string>> {
+  constructor(settings: JwtSignSettings) {
+    this.settings = settings
+  }
+
+  async sign<T extends JwtData>(data: T): Promise<Result<string>> {
     return new Promise((resolve) => {
       const options: SignOptions = {
-        issuer: settings.issuer,
-        audience: settings.audience,
-        expiresIn: settings.expiresIn,
+        issuer: this.settings.issuer,
+        audience: this.settings.audience,
+        expiresIn: this.settings.expiresIn,
         algorithm: 'RS256',
       }
 
-      sign(payload, settings.secret, options, (error, token) => {
+      sign(data, this.settings.secret, options, (error, token) => {
         if (error) {
           resolve(Result.fail(JWT_SIGN_FAILED, { message: error.message }))
         } else if (!token) {
@@ -51,16 +51,17 @@ const jwt = {
         }
       })
     })
-  },
-  async verify<T extends Payload>(token: string, settings: VerifySettings = defaults): Promise<Result<JwtPayload & T>> {
+  }
+
+  async verify<T extends JwtData>(token: string): Promise<Result<JwtPayload & T>> {
     return new Promise((resolve) => {
       const options: VerifyOptions = {
-        issuer: settings.issuer,
-        audience: settings.audience,
+        issuer: this.settings.issuer,
+        audience: this.settings.audience,
         algorithms: ['RS256'],
       }
 
-      verify(token, settings.secret, options, (error, decoded) => {
+      verify(token, this.settings.secret, options, (error, decoded) => {
         if (error) {
           resolve(Result.fail(JWT_VERIFY_FAILED, { message: error.message }))
         } else if (!decoded) {
@@ -70,21 +71,25 @@ const jwt = {
         }
       })
     })
-  },
-}
-
-export async function authorize<T extends Payload>(
-  request: Request,
-  settings: VerifySettings = defaults,
-): Promise<Result<JwtPayload & T>> {
-  const authorization = request.headers.get('authorization')
-  const [type, token] = authorization ? authorization.split(' ') : []
-
-  if (type?.toLowerCase() !== 'bearer' || !token) {
-    return Result.fail(JWT_VERIFY_FAILED)
   }
 
-  return await jwt.verify<T>(token, settings)
+  async authorize<T extends JwtData>(request: Request): Promise<Result<JwtPayload & T>> {
+    const authorization = request.headers.get('authorization')
+    const [type, token] = authorization ? authorization.split(' ') : []
+
+    if (type?.toLowerCase() !== 'bearer' || !token) {
+      return Result.fail(JWT_VERIFY_FAILED)
+    }
+
+    return await jwt.verify<T>(token)
+  }
 }
+
+const jwt = new Jwt({
+  secret: process.env.JWT_SECRET as string,
+  issuer: process.env.JWT_ISSUER as string,
+  audience: process.env.JWT_AUDIENCE as string,
+  expiresIn: parseInt(process.env.JWT_EXPIRES_IN_SECONDS || '60'),
+})
 
 export default jwt
