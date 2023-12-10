@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import createCredentialsProvider from 'next-auth/providers/credentials'
 
-export default function createIdentityProvider(_req: NextApiRequest, res: NextApiResponse) {
+export default function createIdentityProvider(_req: NextApiRequest, _res: NextApiResponse) {
   return createCredentialsProvider({
     id: 'identity',
     name: 'Identity',
