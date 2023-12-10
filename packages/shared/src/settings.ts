@@ -1,7 +1,3 @@
-const settings = {
-  cache: {
-    type: process.env.CACHE_TYPE,
-  },
-}
+const settings = {}
 
 export default settings

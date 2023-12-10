@@ -1,5 +1,4 @@
 import { isNil } from '@pandora/lib/objects'
-import settings from '@pandora/shared/settings'
 
 export interface Cache {
   get<T = any>(key: string): Promise<T | null>
@@ -49,11 +48,13 @@ export class MemoryCache implements Cache {
 }
 
 export function createCache(name: string): Cache {
-  switch (settings.cache.type) {
+  const type = process.env.CACHE_TYPE
+
+  switch (type) {
     case 'memory':
       return new MemoryCache(name)
     default:
-      throw new Error(`invalid cache type (${settings.cache.type})`)
+      throw new Error(`invalid cache type (${type})`)
   }
 }
 
