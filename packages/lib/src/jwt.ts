@@ -8,7 +8,7 @@ import Result from '@pandora/lib/Result'
 
 export type JwtData = Record<string, boolean | number | string>
 
-export type JwtSettings = {
+export type JwtOptions = {
   algorithm: Algorithm
   secret: string
   issuer: string
@@ -21,22 +21,22 @@ export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
 export const JWT_VERIFY_FAILED = 'JWT_VERIFY_FAILED'
 
 export class Jwt {
-  private settings: JwtSettings
+  private options: JwtOptions
 
-  constructor(settings: JwtSettings) {
-    this.settings = settings
+  constructor(options: JwtOptions) {
+    this.options = options
   }
 
   async sign<T extends JwtData>(data: T): Promise<Result<string>> {
     return new Promise((resolve) => {
       const options: SignOptions = {
-        issuer: this.settings.issuer,
-        audience: this.settings.audience,
-        algorithm: this.settings.algorithm,
-        expiresIn: this.settings.expiresIn,
+        issuer: this.options.issuer,
+        audience: this.options.audience,
+        algorithm: this.options.algorithm,
+        expiresIn: this.options.expiresIn,
       }
 
-      sign(data, this.settings.secret, options, (error, token) => {
+      sign(data, this.options.secret, options, (error, token) => {
         if (error) {
           resolve(Result.fail(JWT_SIGN_FAILED, { message: error.message }))
         } else if (!token) {
@@ -51,12 +51,12 @@ export class Jwt {
   async verify<T extends JwtData>(token: string): Promise<Result<JwtPayload & T>> {
     return new Promise((resolve) => {
       const options: VerifyOptions = {
-        issuer: this.settings.issuer,
-        audience: this.settings.audience,
-        algorithms: [this.settings.algorithm],
+        issuer: this.options.issuer,
+        audience: this.options.audience,
+        algorithms: [this.options.algorithm],
       }
 
-      verify(token, this.settings.secret, options, (error, decoded) => {
+      verify(token, this.options.secret, options, (error, decoded) => {
         if (error) {
           resolve(Result.fail(JWT_VERIFY_FAILED, { message: error.message }))
         } else if (!decoded) {
