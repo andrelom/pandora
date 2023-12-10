@@ -1,8 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-
 import createCredentialsProvider from 'next-auth/providers/credentials'
 
-export default function createIdentityProvider(_req: NextApiRequest, _res: NextApiResponse) {
+export default function createIdentityProvider(req: Request, res: Response) {
   return createCredentialsProvider({
     id: 'identity',
     name: 'Identity',
@@ -11,8 +9,6 @@ export default function createIdentityProvider(_req: NextApiRequest, _res: NextA
       password: { label: 'Password', type: 'password' },
     },
     async authorize(credentials) {
-      console.log('Identity Provider', JSON.stringify(credentials))
-
       // Any object returned will be saved in `user`
       // property of the JWT.
       return {
