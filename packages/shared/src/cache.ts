@@ -48,7 +48,7 @@ export class MemoryCache implements Cache {
   }
 }
 
-export function createCache(name: string) {
+export function createCache(name: string): Cache {
   switch (settings.cache.type) {
     case 'memory':
       return new MemoryCache(name)
