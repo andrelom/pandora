@@ -1,6 +1,6 @@
 const settings = {
   identity: {
-    sessionExpirySeconds: 3600,
+    sessionExpirySeconds: parseInt(process.env.IDENTITY_SESSION_EXPIRES_SECONDS || '3600'),
   },
 }
 
