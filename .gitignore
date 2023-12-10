@@ -1,0 +1,20 @@
+#
+# Folders
+
+node_modules/
+
+.next/
+
+tmp/
+
+#
+# Files
+
+*.log
+*.local
+
+.DS_Store
+
+.env
+
+next-env.d.ts

@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@pandora/lib/*": ["../../packages/lib/src/*"],
+      "@pandora/shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "extends": "../../tsconfig.base.json",
+  "include": ["../../types/*.ts", "**/*.ts", "**/*.tsx"]
+}
