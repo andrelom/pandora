@@ -29,8 +29,8 @@ export class HTTPClient {
       await this.fetch(url, {
         ...options,
         method: 'POST',
-        body: options.json ? JSON.stringify(data) : data,
         headers: this.setHeaders(options),
+        body: options.json ? JSON.stringify(data) : data,
       }),
     )
   }
@@ -43,8 +43,8 @@ export class HTTPClient {
       await this.fetch(url, {
         ...options,
         method: 'PATCH',
-        body: options.json ? JSON.stringify(data) : data,
         headers: this.setHeaders(options),
+        body: options.json ? JSON.stringify(data) : data,
       }),
     )
   }
@@ -57,8 +57,8 @@ export class HTTPClient {
       await this.fetch(url, {
         ...options,
         method: 'PUT',
-        body: options.json ? JSON.stringify(data) : data,
         headers: this.setHeaders(options),
+        body: options.json ? JSON.stringify(data) : data,
       }),
     )
   }
@@ -71,8 +71,8 @@ export class HTTPClient {
       await this.fetch(url, {
         ...options,
         method: 'DELETE',
-        body: options.json ? JSON.stringify({}) : undefined,
         headers: this.setHeaders(options),
+        body: options.json ? JSON.stringify({}) : undefined,
       }),
     )
   }
