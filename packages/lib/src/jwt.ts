@@ -6,9 +6,9 @@ import type { Algorithm, JwtPayload, SignOptions, VerifyOptions } from 'jsonwebt
 import { sign, verify } from 'jsonwebtoken'
 import Result from '@pandora/lib/Result'
 
-export type JwtData = Record<string, boolean | number | string>
+export type JWTData = Record<string, boolean | number | string>
 
-export type JwtOptions = {
+export type JWTOptions = {
   algorithm: Algorithm
   secret: string
   issuer: string
@@ -20,14 +20,14 @@ export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
 
 export const JWT_VERIFY_FAILED = 'JWT_VERIFY_FAILED'
 
-export class Jwt {
-  private options: JwtOptions
+export class JWT {
+  private options: JWTOptions
 
-  constructor(options: JwtOptions) {
+  constructor(options: JWTOptions) {
     this.options = options
   }
 
-  async sign<T extends JwtData>(data: T): Promise<Result<string>> {
+  async sign<T extends JWTData>(data: T): Promise<Result<string>> {
     return new Promise((resolve) => {
       const options: SignOptions = {
         issuer: this.options.issuer,
@@ -48,7 +48,7 @@ export class Jwt {
     })
   }
 
-  async verify<T extends JwtData>(token: string): Promise<Result<JwtPayload & T>> {
+  async verify<T extends JWTData>(token: string): Promise<Result<JwtPayload & T>> {
     return new Promise((resolve) => {
       const options: VerifyOptions = {
         issuer: this.options.issuer,
@@ -68,7 +68,7 @@ export class Jwt {
     })
   }
 
-  async authorize<T extends JwtData>(request: Request): Promise<Result<JwtPayload & T>> {
+  async authorize<T extends JWTData>(request: Request): Promise<Result<JwtPayload & T>> {
     const authorization = request.headers.get('authorization')
     const [type, token] = authorization ? authorization.split(' ') : []
 
@@ -80,7 +80,7 @@ export class Jwt {
   }
 }
 
-const jwt = new Jwt({
+const jwt = new JWT({
   algorithm: process.env.JWT_ALGORITHM as Algorithm,
   secret: process.env.JWT_SECRET_KEY,
   issuer: process.env.JWT_ISSUER,
