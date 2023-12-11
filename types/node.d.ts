@@ -13,7 +13,9 @@ declare namespace NodeJS {
     readonly JWT_ALGORITHM: string
     readonly JWT_ISSUER: string
     readonly JWT_AUDIENCE: string
-    readonly JWT_SECRET: string
+    readonly JWT_SECRET_KEY: string
     readonly JWT_EXPIRES_SECONDS: string
+    // AES
+    readonly AES_SECRET_KEY: string
   }
 }

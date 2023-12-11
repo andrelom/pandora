@@ -82,7 +82,7 @@ export class Jwt {
 
 const jwt = new Jwt({
   algorithm: process.env.JWT_ALGORITHM as Algorithm,
-  secret: process.env.JWT_SECRET,
+  secret: process.env.JWT_SECRET_KEY,
   issuer: process.env.JWT_ISSUER,
   audience: process.env.JWT_AUDIENCE,
   expiresIn: parseInt(process.env.JWT_EXPIRES_SECONDS),
