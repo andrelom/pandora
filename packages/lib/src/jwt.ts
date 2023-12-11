@@ -1,12 +1,10 @@
 // An implementation of JSON Web Tokens.
 // More at: https://github.com/auth0/node-jsonwebtoken
 
-import type { Algorithm, JwtPayload, SignOptions, VerifyOptions } from 'jsonwebtoken'
+import type { Algorithm } from 'jsonwebtoken'
 
 import { sign, verify } from 'jsonwebtoken'
 import Result from '@pandora/lib/Result'
-
-export type JWTData = Record<string, boolean | number | string>
 
 export type JWTOptions = {
   algorithm: Algorithm
@@ -14,6 +12,20 @@ export type JWTOptions = {
   issuer: string
   audience: string
   expiresIn: number
+}
+
+export type JWTData = {
+  [key: string]: boolean | number | string
+}
+
+export type JWTPayload<T = JWTData> = T & {
+  iss?: string
+  sub?: string
+  aud?: string | string[]
+  exp?: number
+  nbf?: number
+  iat?: number
+  jti?: string
 }
 
 export const JWT_SIGN_FAILED = 'JWT_SIGN_FAILED'
@@ -29,7 +41,7 @@ export class JWT {
 
   async sign<T extends JWTData>(data: T): Promise<Result<string>> {
     return new Promise((resolve) => {
-      const options: SignOptions = {
+      const options = {
         issuer: this.options.issuer,
         audience: this.options.audience,
         algorithm: this.options.algorithm,
@@ -48,9 +60,9 @@ export class JWT {
     })
   }
 
-  async verify<T extends JWTData>(token: string): Promise<Result<JwtPayload & T>> {
+  async verify<T extends JWTData>(token: string): Promise<Result<JWTPayload<T>>> {
     return new Promise((resolve) => {
-      const options: VerifyOptions = {
+      const options = {
         issuer: this.options.issuer,
         audience: this.options.audience,
         algorithms: [this.options.algorithm],
@@ -62,13 +74,13 @@ export class JWT {
         } else if (!decoded) {
           resolve(Result.fail(JWT_VERIFY_FAILED, { message: 'unable to decode token' }))
         } else {
-          resolve(Result.success(decoded as JwtPayload & T))
+          resolve(Result.success(decoded as JWTPayload<T>))
         }
       })
     })
   }
 
-  async authorize<T extends JWTData>(request: Request): Promise<Result<JwtPayload & T>> {
+  async authorize<T extends JWTData>(request: Request): Promise<Result<JWTPayload<T>>> {
     const authorization = request.headers.get('authorization')
     const [type, token] = authorization ? authorization.split(' ') : []
 
