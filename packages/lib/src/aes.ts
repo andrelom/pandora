@@ -20,7 +20,7 @@ export class AES {
 
   encode(data: Record<string, string>): Result<string> {
     try {
-      const iv = crypto.randomBytes(12)
+      const iv = crypto.randomBytes(16)
       const serialized = this.serialize(data)
       const { encrypted, tag } = this.encrypt(serialized, iv)
       const encoded = this.format(iv, tag, encrypted)
