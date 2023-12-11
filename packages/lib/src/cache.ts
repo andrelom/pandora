@@ -43,7 +43,7 @@ export class MemoryCache implements Cache {
   }
 
   private getId(key: string) {
-    return `${this.name}:${key}`.toLowerCase()
+    return `${this.name}#${key}`.toLowerCase()
   }
 }
 
