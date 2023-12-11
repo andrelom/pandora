@@ -33,7 +33,7 @@ export class AES {
 
   decode(cookie: string): Result<Record<string, string>> {
     try {
-      const [ivBase64, tagBase64, encryptedBase64] = cookie.split('$')
+      const [ivBase64, tagBase64, encryptedBase64] = cookie.split(':')
 
       const iv = Buffer.from(ivBase64, 'base64')
       const tag = Buffer.from(tagBase64, 'base64')
@@ -49,7 +49,7 @@ export class AES {
   }
 
   private format(iv: Buffer, tag: string, encrypted: string): string {
-    return `${iv.toString('base64')}$${tag}$${encrypted}`
+    return `${iv.toString('base64')}:${tag}:${encrypted}`
   }
 
   private encrypt(data: string, iv: Buffer): { encrypted: string; tag: string } {
