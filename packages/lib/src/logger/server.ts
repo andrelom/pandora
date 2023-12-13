@@ -16,7 +16,7 @@ const raw = pino({
 const server = {
   info: (message: string) => raw.info(message),
   warn: (message: string) => raw.warn(message),
-  error: (data: any, message?: string) => raw.error(data, message),
+  error: (message: string, data: any) => raw.error(data, message),
 }
 
 export default server
