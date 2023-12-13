@@ -1,17 +1,21 @@
+import { webcrypto } from 'crypto'
+
 export default class Result<T = any> {
   ok: boolean
+  trace: string
   data?: T
   error?: string
   metadata?: Record<string, any>
 
   constructor(ok: boolean) {
     this.ok = ok
+    this.trace = webcrypto.randomUUID()
   }
 
   static is(source: any): boolean {
     if (!('ok' in source) || typeof source.ok !== 'boolean') return false
 
-    const allowed = ['ok', 'data', 'error', 'metadata']
+    const allowed = ['ok', 'trace', 'data', 'error', 'metadata']
     const keys = Object.keys(source)
     const extra = keys.filter((key) => !allowed.includes(key))
 
@@ -44,6 +48,7 @@ export default class Result<T = any> {
       result.data = source.data
     }
 
+    result.trace = source.trace
     result.error = source.error
     result.metadata = source.metadata
 
