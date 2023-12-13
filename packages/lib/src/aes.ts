@@ -15,7 +15,7 @@ export class AES {
   private key: Buffer
 
   constructor(key: string) {
-    this.key = Buffer.from(key, 'base64')
+    this.key = crypto.createHash('sha256').update(String(key)).digest()
   }
 
   encode(data: Record<string, string>): Result<string> {
