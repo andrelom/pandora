@@ -1,3 +1,5 @@
+import type Result from '@pandora/lib/Result'
+
 import pino from 'pino'
 
 if (typeof window !== 'undefined') {
@@ -16,7 +18,7 @@ const raw = pino({
 const server = {
   info: (message: string) => raw.info(message),
   warn: (message: string) => raw.warn(message),
-  error: (message: string, data: any) => raw.error(data, message),
+  error: (message: string, result?: Result) => raw.error({ result }, message),
 }
 
 export default server
