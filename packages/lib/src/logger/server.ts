@@ -12,7 +12,7 @@ if (typeof window !== 'undefined') {
 // See more at: https://getpino.io/#/docs/api
 const raw = pino({
   name: 'Pandora',
-  level: process.env.LOGGING_LEVEL ?? 'info',
+  level: process.env.LOGGER_LEVEL ?? 'info',
 })
 
 const server = {
