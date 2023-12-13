@@ -7,6 +7,8 @@ declare namespace NodeJS {
     readonly NODE_ENV: 'development' | 'production' | 'test'
     // Next.js
     readonly PUBLIC_URL: string
+    // Logger
+    readonly LOGGER_LEVEL: string
     // Cache
     readonly CACHE_TYPE: 'memory'
     // JWT
