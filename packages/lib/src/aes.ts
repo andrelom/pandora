@@ -75,27 +75,11 @@ export class AES {
   }
 
   private serialize(data: Record<string, string>): string {
-    const builder = new URLSearchParams()
-    const entries = Object.entries(data)
-
-    for (const [key, value] of entries) {
-      builder.append(key, value)
-    }
-
-    return decodeURIComponent(builder.toString())
+    return JSON.stringify(data)
   }
 
   private parse(encoded: string): Record<string, string> {
-    const builder = new URLSearchParams(encoded)
-    const entries: any = builder.entries()
-
-    const data: Record<string, string> = {}
-
-    for (const [key, value] of entries) {
-      data[key] = value
-    }
-
-    return data
+    return JSON.parse(encoded)
   }
 }
 
