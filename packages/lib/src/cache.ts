@@ -4,7 +4,7 @@ export interface Cache {
   get<T = any>(key: string): Promise<T | null>
   set<T = any>(key: string, value: T, expiration: number): Promise<void>
   delete(key: string): Promise<void>
-  clear(prefix: string): Promise<void>
+  clear(prefix?: string): Promise<void>
 }
 
 export class MemoryCache implements Cache {
@@ -43,11 +43,11 @@ export class MemoryCache implements Cache {
     this.memory.delete(this.getId(key))
   }
 
-  async clear(prefix: string): Promise<void> {
+  async clear(prefix?: string): Promise<void> {
     const keys = this.memory.keys() as unknown as Array<string>
 
     for (const key of keys) {
-      if (key.startsWith(this.getId(prefix))) {
+      if (key.startsWith(this.getId(prefix ?? ''))) {
         this.memory.delete(key)
       }
     }
