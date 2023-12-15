@@ -4,6 +4,10 @@
 // plaintext data, and optional associated data. It outputs the ciphertext and an
 // authentication tag.
 
+if (typeof window !== 'undefined') {
+  throw new Error(`the 'lib/aes' is not compatible with the browser`)
+}
+
 import * as crypto from 'crypto'
 import Result from '@pandora/lib/Result'
 
