@@ -1,6 +1,7 @@
 import type { RedisClientType, RedisClientOptions } from 'redis'
 
 import { createClient } from 'redis'
+import logger from '@pandora/lib/logger/server'
 import { isNil } from '@pandora/lib/objects'
 
 export interface Cache {
@@ -19,7 +20,7 @@ export class MemoryCache implements Cache {
     this.memory = new Map()
 
     if (process.env.NODE_ENV !== 'development') {
-      console.warn('In Memory Cache: Please use this for development only')
+      logger.warn('In Memory Cache: Please use this for development only')
     }
   }
 
