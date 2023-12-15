@@ -10,7 +10,7 @@ declare namespace NodeJS {
     // Logger
     readonly LOGGER_LEVEL: string
     // Cache
-    readonly CACHE_TYPE: 'memory'
+    readonly CACHE_TYPE: 'memory' | 'redis'
     // JWT
     readonly JWT_ALGORITHM: string
     readonly JWT_ISSUER: string
