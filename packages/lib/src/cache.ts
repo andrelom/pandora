@@ -76,7 +76,7 @@ export class RedisCache implements Cache {
     const id = this.getId(key)
     const memory = this.memory.get(id)
 
-    if (!this.isNil(memory)) return memory as T
+    if (!isNil(memory)) return memory as T
 
     const value = await this.redis.get(id)
 
@@ -88,7 +88,7 @@ export class RedisCache implements Cache {
   }
 
   async set<T = any>(key: string, value: T, expiration: number = 1800): Promise<void> {
-    if (this.isNil(value)) return
+    if (isNil(value)) return
 
     const id = this.getId(key)
 
@@ -118,19 +118,15 @@ export class RedisCache implements Cache {
     }
   }
 
-  private isNil<T = any>(value: T) {
-    return value === null || typeof value === 'undefined'
-  }
-
   private getId(key: string) {
-    return `${this.name}:${key}`.toLowerCase()
+    return `${this.name}#${key}`.toLowerCase()
   }
 
   // Debounce the cache reading routine.
   // If requests are made within five seconds, the cache will be fresh in memory, if
   // this time exceeds, we delete it, and we fetch the value from Redis.
   private memorize<T = any>(id: string, value: T) {
-    if (this.isNil(value)) return
+    if (isNil(value)) return
 
     this.memory.set(id, value)
 
