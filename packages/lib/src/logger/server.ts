@@ -1,12 +1,10 @@
+if (typeof window !== 'undefined') {
+  throw new Error(`the 'lib/logger/server' is not compatible with the browser`)
+}
+
 import type { Logger } from './'
 
 import pino from 'pino'
-
-if (typeof window !== 'undefined') {
-  throw new Error(
-    `The 'lib/logger/server' is not compatible with the browser, please use the 'lib/logger/client' instead`,
-  )
-}
 
 // Pino is a structured logging package.
 // See more at: https://getpino.io/#/docs/api
