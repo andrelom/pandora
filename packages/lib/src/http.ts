@@ -1,4 +1,5 @@
 import Result from '@pandora/lib/Result'
+import { createLogger } from '@pandora/lib/logger'
 import { getHTTPStatusByCode } from '@pandora/lib/http-status-codes'
 
 import { WHOOPS } from '@pandora/lib/errors'
@@ -151,10 +152,12 @@ export class HTTPClient {
   }
 
   private async fetch(url: URL, value: any) {
+    const logger = await createLogger()
+
     try {
       return await fetch(url, value)
-    } catch (error) {
-      console.log('HTTP Client', error)
+    } catch (error: any) {
+      logger.error('HTTP Client', error)
 
       return null
     }

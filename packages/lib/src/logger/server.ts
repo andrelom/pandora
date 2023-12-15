@@ -1,4 +1,4 @@
-import type Result from '@pandora/lib/Result'
+import type { Logger } from './'
 
 import pino from 'pino'
 
@@ -15,10 +15,10 @@ const raw = pino({
   level: process.env.LOGGER_LEVEL ?? 'info',
 })
 
-const server = {
-  info: (message: string) => raw.info(message),
-  warn: (message: string) => raw.warn(message),
-  error: (message: string, result?: Result) => raw.error({ result }, message),
+const server: Logger = {
+  info: (msg: string) => raw.info(msg),
+  warn: (msg: string) => raw.warn(msg),
+  error: (msg: string, obj?: any) => raw.error({ obj }, msg),
 }
 
 export default server
