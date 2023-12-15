@@ -1,6 +1,10 @@
 // An implementation of JSON Web Tokens.
 // More at: https://github.com/auth0/node-jsonwebtoken
 
+if (typeof window !== 'undefined') {
+  throw new Error(`the 'lib/jwt' is not compatible with the browser`)
+}
+
 import type { Algorithm } from 'jsonwebtoken'
 
 import { sign, verify } from 'jsonwebtoken'
