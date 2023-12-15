@@ -139,7 +139,7 @@ export class RedisCache implements Cache {
   }
 }
 
-export function createCache(name: string): Cache {
+function createCache(name: string): Cache {
   const type = process.env.CACHE_TYPE
 
   switch (type) {
