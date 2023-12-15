@@ -1,3 +1,7 @@
+if (typeof window !== 'undefined') {
+  throw new Error(`the 'lib/cache' is not compatible with the browser`)
+}
+
 import type { RedisClientType, RedisClientOptions } from 'redis'
 
 import { createClient } from 'redis'
