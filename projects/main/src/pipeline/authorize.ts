@@ -5,13 +5,14 @@ import jwt from '@pandora/lib/jwt'
 import api from '@pandora/lib/api'
 
 export default async function authorize(request: NextRequest): Promise<NextResponse | null> {
-  const pathname = request.nextUrl.pathname
+  const source = request.nextUrl.pathname.toLowerCase()
 
-  if (!pathname.startsWith('/api')) return null
+  if (!source.startsWith('/api')) return null
 
   const result = await jwt.authorize<{ pathname: string }>(request)
+  const target = result.data?.pathname.toLowerCase()
 
-  if (result.data?.pathname === pathname) return null
+  if (source === target) return null
 
   logger.error('Middleware Authorize', result)
 
