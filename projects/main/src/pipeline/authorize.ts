@@ -9,13 +9,13 @@ export default async function authorize(request: NextRequest): Promise<NextRespo
 
   if (!pathname.startsWith('/api')) return null
 
-  const authorization = await jwt.authorize<{ pathname: string }>(request)
+  const result = await jwt.authorize<{ pathname: string }>(request)
 
-  if (authorization.data?.pathname === pathname) return null
+  if (result.data?.pathname === pathname) return null
 
-  logger.error('Middleware Authorize', authorization)
+  logger.error('Middleware Authorize', result)
 
   return api.getNotAuthorized({
-    trace: authorization.trace,
+    trace: result.trace,
   })
 }
