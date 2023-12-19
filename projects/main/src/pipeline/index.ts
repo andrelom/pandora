@@ -1,5 +1,9 @@
+import type { NextRequest, NextResponse } from 'next/server'
+
 import authorize from './authorize'
 
-const pipeline: Array<Core.Stage> = [authorize]
+export type Stage = (request: NextRequest) => Promise<NextResponse | null>
+
+const pipeline: Array<Stage> = [authorize]
 
 export default pipeline
