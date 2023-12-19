@@ -4,7 +4,7 @@ import logger from '@pandora/lib/logger/server'
 import jwt from '@pandora/lib/jwt'
 import api from '@pandora/lib/api'
 
-export default async function authorize(request: NextRequest): Promise<NextResponse | null> {
+const authorize: Core.Stage = async (request: NextRequest) => {
   const source = request.nextUrl.pathname.toLowerCase()
 
   if (!source.startsWith('/api')) return null
@@ -20,3 +20,5 @@ export default async function authorize(request: NextRequest): Promise<NextRespo
     trace: result.trace,
   })
 }
+
+export default authorize
