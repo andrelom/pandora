@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import Result from '@pandora/lib/Result'
+import logger from '@pandora/lib/logger/server'
 
 import { HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED } from '@pandora/lib/http-status-codes'
 
@@ -15,11 +16,13 @@ const api = {
   },
 }
 
-export async function parse<T = any>(request: Request): Promise<T | undefined> {
+export async function parse<T = any>(request: Request, fallback?: T): Promise<T | undefined> {
   try {
     return await request.json()
-  } catch {
-    return
+  } catch (error) {
+    logger.error('API Request Parse', error)
+
+    return fallback
   }
 }
 
