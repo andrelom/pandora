@@ -15,6 +15,4 @@ declare namespace Core {
     params: TParams
     searchParams: TSearchParams
   }
-
-  type Stage = (request: NextRequest) => Promise<NextResponse | null>
 }
