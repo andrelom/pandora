@@ -5,7 +5,7 @@
   "dependencies": {
     "jsonwebtoken": "^9.0.2",
     "pino": "^8.17.1",
-    "redis": "^4.6.11"
+    "redis": "^4.6.12"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.5"
