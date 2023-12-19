@@ -1,8 +1,10 @@
+import type { Stage } from '.'
+
 import logger from '@pandora/lib/logger/server'
 import jwt from '@pandora/lib/jwt'
 import api from '@pandora/lib/api'
 
-const authorize: Core.Stage = async (request) => {
+const authorize: Stage = async (request) => {
   const source = request.nextUrl.pathname.toLowerCase()
 
   if (!source.startsWith('/api')) return null
