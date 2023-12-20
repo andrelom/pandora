@@ -11,7 +11,7 @@ const nextConfig = {
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.plugins.push(new DefineRoutesPlugin('internal'))
-      config.plugins.push(new DefineRoutesPlugin('authorization'))
+      config.plugins.push(new DefineRoutesPlugin('authorize'))
     }
 
     return config
