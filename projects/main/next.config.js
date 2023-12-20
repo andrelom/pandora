@@ -1,3 +1,5 @@
+const GetProtectedRoutesPlugin = require('../../webpack/GetProtectedRoutesPlugin')
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -5,6 +7,11 @@ const nextConfig = {
   },
   env: {
     PUBLIC_URL: process.env.PUBLIC_URL,
+  },
+  webpack: (config, { isServer }) => {
+    config.plugins.push(new GetProtectedRoutesPlugin({}))
+
+    return config
   },
 }
 
