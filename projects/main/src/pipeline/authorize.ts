@@ -11,7 +11,7 @@ const authorize: Stage = async (request) => {
 
   if (!routes.has(source)) return api.getOk()
 
-  const url = createURL('/api/internal/authorize')
+  const url = createURL('/api/middleware/authorize')
   const data = {}
 
   const result = await http.post(url, data, {
