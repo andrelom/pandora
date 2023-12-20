@@ -1,35 +1,61 @@
 const fs = require('fs')
+const path = require('path')
 const webpack = require('webpack')
-
-const files = []
 
 class GetProtectedRoutesPlugin {
   constructor(options = {}) {
     this.options = options
-    this.ok = false
   }
 
   apply(compiler) {
-    compiler.hooks.emit.tap('GetProtectedRoutesPlugin', (compilation) => {
-      compilation.modules.forEach((module) => {
-        if (!module.resource?.endsWith('/route.ts')) return
-        if (!fs.existsSync(module.resource)) return
-
-        const content = fs.readFileSync(module.resource, 'utf-8')
-
-        if (content.includes('// @protected')) {
-          files.push(module.resource)
-        }
-      })
-
-      console.log('01 >>>>>>>>>>', files)
-    })
-
+    const files = this.#getFiles(compiler.context)
+    const routes = this.#getRoutes(files)
     const define = new webpack.DefinePlugin({
-      'process.env.FILES_WITH_COMMENTS': JSON.stringify(files),
+      'process.env.AUTHORIZATION_ROUTES': JSON.stringify(routes),
     })
 
     define.apply(compiler)
+  }
+
+  #getRoutes(files) {
+    const routes = []
+
+    for (const file of files) {
+      if (!file.endsWith('route.ts')) continue
+      if (!fs.existsSync(file)) continue
+
+      const source = fs.readFileSync(file, 'utf-8')
+
+      if (!source.includes(`'use authorization'`)) continue
+
+      const match = file.replace(/\\+/gi, '/').match(/\/app\/(.*?)\/route\.ts/i)
+      const route = match ? `/${match[1]}` : ''
+
+      if (route) {
+        routes.push(route)
+      }
+    }
+
+    return routes
+  }
+
+  #getFiles(root, files = []) {
+    if (/\.next|node_modules/gi.test(root)) return files
+
+    const names = fs.readdirSync(root)
+
+    for (const name of names) {
+      const file = path.join(root, name)
+      const stat = fs.statSync(file)
+
+      if (!stat.isDirectory()) {
+        files.push(file)
+      } else {
+        this.#getFiles(file, files)
+      }
+    }
+
+    return files
   }
 }
 
