@@ -43,9 +43,7 @@ class GetProtectedRoutesPlugin {
   #getFiles(root, files = []) {
     if (/node_modules|\.next/gi.test(root)) return files
 
-    const names = fs.readdirSync(root)
-
-    for (const name of names) {
+    for (const name of fs.readdirSync(root)) {
       const file = path.join(root, name)
       const stat = fs.statSync(file)
 
