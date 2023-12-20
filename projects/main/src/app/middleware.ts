@@ -13,7 +13,7 @@ export async function middleware(request: NextRequest) {
 
     if (!response) continue
 
-    return response
+    // return response
   }
 
   return NextResponse.next()
