@@ -1,5 +1,3 @@
-import { webcrypto } from 'crypto'
-
 export default class Result<T = any> {
   ok: boolean
   trace: string
@@ -9,7 +7,7 @@ export default class Result<T = any> {
 
   constructor(ok: boolean) {
     this.ok = ok
-    this.trace = webcrypto.randomUUID()
+    this.trace = global.crypto.randomUUID()
   }
 
   static is(source: any): boolean {
