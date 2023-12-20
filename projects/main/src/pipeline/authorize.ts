@@ -6,8 +6,6 @@ import api from '@pandora/lib/api'
 
 const routes = new Set(['/api/hooks/revalidate'])
 
-const map = new Map()
-
 const authorize: Stage = async (request) => {
   const source = request.nextUrl.pathname.toLowerCase()
 
