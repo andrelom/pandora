@@ -5,6 +5,7 @@ import { getHTTPStatusByCode } from '@pandora/lib/http-status-codes'
 import { WHOOPS } from '@pandora/lib/errors'
 
 export type HTTPClientOptions = Omit<RequestInit, 'method' | 'body'> & {
+  internal?: boolean
   json?: boolean
 }
 
@@ -86,6 +87,10 @@ export class HTTPClient {
 
   private setHeaders(options: HTTPClientOptions) {
     const headers: Record<string, string> = {}
+
+    if (options.internal) {
+      headers[`x-internal-secret`] = process.env.INTERNAL_SECRET
+    }
 
     if (options.json) {
       headers[`content-type`] = 'application/json'
