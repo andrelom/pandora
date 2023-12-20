@@ -13,7 +13,7 @@ export default class Result<T = any> {
   }
 
   static is(source: any): boolean {
-    if (!('ok' in source) || typeof source.ok !== 'boolean') return false
+    if (typeof source?.ok !== 'boolean') return false
 
     const allowed = ['ok', 'trace', 'data', 'error', 'metadata']
     const keys = Object.keys(source)
