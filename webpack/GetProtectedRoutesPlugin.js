@@ -10,6 +10,7 @@ class GetProtectedRoutesPlugin {
   apply(compiler) {
     const files = this.#getFiles(compiler.context)
     const routes = this.#getRoutes(files)
+
     const define = new webpack.DefinePlugin({
       'process.env.AUTHORIZATION_ROUTES': JSON.stringify(routes),
     })
