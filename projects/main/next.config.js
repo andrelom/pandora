@@ -1,4 +1,4 @@
-const DefineAuthorizationRoutesPlugin = require('../../webpack/DefineAuthorizationRoutesPlugin')
+const DefineRoutesPlugin = require('../../webpack/DefineRoutesPlugin')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -10,7 +10,8 @@ const nextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      config.plugins.push(new DefineAuthorizationRoutesPlugin())
+      config.plugins.push(new DefineRoutesPlugin('internal'))
+      config.plugins.push(new DefineRoutesPlugin('authorization'))
     }
 
     return config
