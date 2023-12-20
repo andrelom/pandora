@@ -6,8 +6,8 @@ export type Logger = {
 
 export async function createLogger(): Promise<Logger> {
   if (typeof window === 'undefined') {
-    return await require('@pandora/lib/logger/server').then((server: any) => server.default)
+    return require('@pandora/lib/logger/server').default
   } else {
-    return await require('@pandora/lib/logger/client').then((client: any) => client.default)
+    return require('@pandora/lib/logger/client').then((client: any) => client.default)
   }
 }
