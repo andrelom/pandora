@@ -4,10 +4,14 @@ import logger from '@pandora/lib/logger/server'
 import jwt from '@pandora/lib/jwt'
 import api from '@pandora/lib/api'
 
+const routes = new Set(['/api/hooks/revalidate'])
+
+const map = new Map()
+
 const authorize: Stage = async (request) => {
   const source = request.nextUrl.pathname.toLowerCase()
 
-  if (!source.startsWith('/api')) return null
+  if (!routes.has(source)) return null
 
   const result = await jwt.authorize<{ pathname: string }>(request)
   const target = result.data?.pathname.toLowerCase()
