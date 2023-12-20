@@ -9,7 +9,9 @@ const nextConfig = {
     PUBLIC_URL: process.env.PUBLIC_URL,
   },
   webpack: (config, { isServer }) => {
-    config.plugins.push(new GetProtectedRoutesPlugin({}))
+    if (isServer) {
+      config.plugins.push(new GetProtectedRoutesPlugin())
+    }
 
     return config
   },
