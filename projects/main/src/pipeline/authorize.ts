@@ -4,7 +4,7 @@ import logger from '@pandora/lib/logger/server'
 import jwt from '@pandora/lib/jwt'
 import api from '@pandora/lib/api'
 
-const routes = new Set(['/api/hooks/revalidate'])
+const routes = new Set(process.env.AUTHORIZATION_ROUTES)
 
 const authorize: Stage = async (request) => {
   const source = request.nextUrl.pathname.toLowerCase()
